@@ -1,69 +1,83 @@
 
 package musicx.model;
 
+import java.sql.Timestamp;
+
 public class Users {
 	
-	private String userName, password, firstName, lastName,
-	email, phone;
+	private String username;
+	private String password;
+	private int location_id;
+	private String firstname, lastname;
+	private Gender gender;
+	public enum Gender{
+		M, F
+	};
+	private Timestamp birthdate;
+	private int phone_number;
 	
-	public Users(String userName, String password, String firstName, String lastName, 
-			String email, String phone) {
-
-		this.userName = userName;
+	public Users(String username, String password, int location_id, String firstname, String lastname, Gender gender,
+			Timestamp birthdate, int phone_number) {
+		super();
+		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
+		this.location_id = location_id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.gender = gender;
+		this.birthdate = birthdate;
+		this.phone_number = phone_number;
 	}
-
-	public String getUserName() {
-		return userName;
+	
+	public String getUsername() {
+		return username;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getFirstName() {
-		return firstName;
+	public int getLocation_id() {
+		return location_id;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setLocation_id(int location_id) {
+		this.location_id = location_id;
 	}
-
-	public String getLastName() {
-		return lastName;
+	public String getFirstname() {
+		return firstname;
 	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-
-	public String getEmail() {
-		return email;
+	public String getLastname() {
+		return lastname;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
-
-	public String getPhone() {
-		return phone;
+	public Gender getGender() {
+		return gender;
 	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
+	public Timestamp getBirthdate() {
+		return birthdate;
+	}
+	public void setBirthdate(Timestamp birthdate) {
+		this.birthdate = birthdate;
+	}
+	public int getPhone_number() {
+		return phone_number;
+	}
+	public void setPhone_number(int phone_number) {
+		this.phone_number = phone_number;
+	}
+	
 	
 	
 
