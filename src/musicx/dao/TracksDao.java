@@ -127,7 +127,7 @@ public class TracksDao {
 		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks " + "WHERE album_id=?;";
+				+ "FROM Tracks " + "WHERE album_id=? LIMIT 100;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -179,7 +179,7 @@ public class TracksDao {
 		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks " + "WHERE artist_id=?;";
+				+ "FROM Tracks " + "WHERE artist_id=? LIMIT 100;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -231,7 +231,7 @@ public class TracksDao {
 		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks " + "WHERE genre_id=?;";
+				+ "FROM Tracks " + "WHERE genre_id=? LIMIT 100;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -284,14 +284,65 @@ public class TracksDao {
 		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks " + "WHERE track_title COLLATE UTF8_GENERAL_CI LIKE '%?%';";
+				+ "FROM Tracks " + "WHERE track_title LIKE ? "+"LIMIT 100";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectTracks);
-			selectStmt.setString(1, query);
+			selectStmt.setString(1, "%" + query + "%");
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate);
+
+
+				tracksList.add(track);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
+	}
+	
+	public List<Tracks> getAllTracks() throws SQLException {
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
+	"track_title, track_url, track_duration, track_information,"+
+	"track_number, track_composer, track_bit_rate " 
+				+ "FROM Tracks LIMIT 100";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
 			results = selectStmt.executeQuery();
 			while (results.next()) {
 

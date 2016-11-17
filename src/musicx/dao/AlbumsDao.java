@@ -138,6 +138,45 @@ public class AlbumsDao {
 		return albumsList;
 	}
 	
+	public List<Albums> getAllAlbums() throws SQLException {
+		List<Albums> albumsList = new ArrayList<Albums>();
+		String selectAlbums = "SELECT album_id,album_title,album_url " 
+				+ "FROM Albums LIMIT 100";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectAlbums);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultAlbumId = results.getString("album_id");
+				String resultAlbumTitle = results.getString("album_title");
+				String resultAlbumUrl = results.getString("album_url");
+
+				Albums album = new Albums(resultAlbumId, resultAlbumTitle, resultAlbumUrl);
+
+
+				albumsList.add(album);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return albumsList;
+	}
+	
 	/**
 	 * Delete the Albums instance. This runs a DELETE statement.
 	 */

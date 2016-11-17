@@ -1,5 +1,6 @@
 package musicx.dao;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +30,7 @@ public class UsersDao {
 	public Users create(Users user) throws SQLException {
 		String insertUser = "INSERT INTO Users(username,password,location_id,"
 				+ "firstname,lastname,gender,birthdate, phone_number) " 
-	+ "VALUES(?,?,?,?,?,?);";
+	+ "VALUES(?,?,?,?,?,?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 		ResultSet resultKey = null;
@@ -45,7 +46,7 @@ public class UsersDao {
 			insertStmt.setString(4, user.getFirstname());
 			insertStmt.setString(5, user.getLastname());
 			insertStmt.setString(6, user.getGender().toString());
-			insertStmt.setTimestamp(7, user.getBirthdate());
+			insertStmt.setDate(7, new Date(user.getBirthdate().getTime()));
 			insertStmt.setInt(8, user.getPhone_number());
 			
 
@@ -71,7 +72,7 @@ public class UsersDao {
 	public Users getUserByUsername(String username) throws SQLException {
 		String selectUser = "SELECT username,password,location_id,"
 				+ "firstname,lastname,gender,birthdate,phone_number " 
-				+ "WHERE username=?;";
+				+ "FROM Users WHERE username=?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -237,7 +238,7 @@ public class UsersDao {
 	 * Delete the Users instance. This runs a DELETE statement.
 	 */
 	public Users delete(Users user) throws SQLException {
-		String deleteUser = "DELETE FROM Users WHERE Username=?;";
+		String deleteUser = "DELETE FROM Users WHERE username=?;";
 		Connection connection = null;
 		PreparedStatement deleteStmt = null;
 		try {

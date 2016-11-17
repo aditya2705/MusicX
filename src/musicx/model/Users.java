@@ -11,7 +11,7 @@ public class Users {
 	private String firstname, lastname;
 	private Gender gender;
 	public enum Gender{
-		MALE, FEMALE
+		M, F
 	};
 	private Timestamp birthdate;
 	private int phone_number;
