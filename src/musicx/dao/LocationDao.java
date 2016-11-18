@@ -14,10 +14,10 @@ public class LocationDao {
 	private ConnectionManager connectionManager;
 
 	private static LocationDao instance = null;
-	public static String TABLE_NAME = "Location";
+	public static String TABLE_NAME = "location";
 
 
-	protected LocationDao() {
+	public LocationDao() {
 		connectionManager = new ConnectionManager();
 	}
 
@@ -211,4 +211,45 @@ public class LocationDao {
 	}
 	
 
+	public List<Location> getAllLocation() throws SQLException {
+		List<Location> locations = new ArrayList<Location>();
+
+		String selectLocation =
+				"SELECT *" +
+				" FROM " + TABLE_NAME + ";";
+
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectLocation);
+			
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int locationId = results.getInt("location_id");
+				String state = results.getString("state");
+				Location location = new Location(state);
+				location.setLocationId(locationId);
+				locations.add(location);
+				
+				//
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return locations;
+	}
+	
 }

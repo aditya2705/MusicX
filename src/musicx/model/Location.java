@@ -2,6 +2,15 @@ package musicx.model;
 
 public class Location {
 
+
+
+	public Location(int locationId, String state) {
+		super();
+		this.locationId = locationId;
+		this.state = state;
+	}
+
+
 	private int locationId;
 	private String state;
 
