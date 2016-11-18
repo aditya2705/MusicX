@@ -11,12 +11,40 @@
 </head>
 <body>
 <h1>Tracks Listing Based on Query "cut"</h1>
+
+<form action="${pageContext.request.contextPath}/TracksSearchServlet" name="frmSearchTrack" method="post">
+	 <table>
+	<tr>
+		<td>
+			<input type="text" id="searchText" name="searchText">
+		</td>
+		<td>
+			<input type="submit" name = "buttonSearchTrack" id="buttonSearchTrack" >
+		</td>
+	</tr>
+	
+	<tr>
+  		<td colspan="2" align="center"><p id="errMsg" style="color:red"><%
+    	if(null!=request.getAttribute("errorMessage"))
+    	{
+        	out.println(request.getAttribute("errorMessage"));
+    	}
+		%></p></td>
+  	</tr>
+</table>
+</form>
 <%
 	TracksDao tracksDao = TracksDao.getInstance();
 	List<Tracks> tracks = new ArrayList<Tracks>();
-	tracks = tracksDao.getTracksByTrackTitleQuery("cut");
+	if(null!=request.getAttribute("tracksResult"))
+    {
+		tracks = (ArrayList<Tracks>) request.getAttribute("tracksResult");  
+		System.out.println(tracks.size());
+    }
+	
+	if(tracks.size()>0){
 %>
-	 <table border="2">
+<table border="2">
 	 	<tr>
 	 		<td>Title</td>
 	 		<td>Album</td>
@@ -26,7 +54,7 @@
 	 		<td>Composer</td>
 	 		<td>Bit Rate</td>
 	 	</tr>
-	 	<% System.out.println(tracks.size()); 
+	 	<%  
 	 	for(Tracks track : tracks) {%>
 	 	<tr>
 	 		<td><%= track.getTrack_title() %></td>
@@ -39,6 +67,6 @@
 	 	</tr>
 	 	<%} %>
 	 </table>
-
+<%} %>
 </body>
 </html>
