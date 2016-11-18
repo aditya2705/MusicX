@@ -31,6 +31,9 @@ import java.util.List;
 			artistsDao.create(art);
 		}
 		
+		System.out.println("Fetching artists");
+		fetchArtists(artists);
+		
 		System.out.println("Updating Website for artists");
 		artistsDao.updateArtistWebsite(artists.get(0), "iamavicii.com");
 		artistsDao.updateArtistWebsite(artists.get(1), "iamdjmartin.com");
