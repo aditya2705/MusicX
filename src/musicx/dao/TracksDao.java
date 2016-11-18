@@ -331,18 +331,20 @@ public class TracksDao {
 		return tracksList;
 	}
 	
-	public List<Tracks> getAllTracks() throws SQLException {
+	public List<Tracks> getAllTracks(int start) throws SQLException {
 		List<Tracks> tracksList = new ArrayList<Tracks>();
 		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks LIMIT 100";
+				+ "FROM Tracks LIMIT ?,?";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectTracks);
+			selectStmt.setInt(1, start);
+			selectStmt.setInt(2, start+50);
 			results = selectStmt.executeQuery();
 			while (results.next()) {
 

@@ -1,1 +1,9 @@
 /build/
+
+*.prefs
+.classpath
+src/musicx/dao/ConnectionManager.java
+*.classpath
+.classpath
+*.classpath
+*.classpath
